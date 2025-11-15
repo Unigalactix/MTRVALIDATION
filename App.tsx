@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { run } from './services/geminiService';
 import type { FilePart } from './services/geminiService';
 import type { Message } from './types';
@@ -7,52 +6,52 @@ import { MessageAuthor } from './types';
 
 // -- SVG Icons -- //
 
-const UserIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const UserIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
 );
-const GeminiIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const GeminiIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.94 9h2.02A8 8 0 0 1 12 4a8.1 8.1 0 0 1 8 8 8 8 0 0 1-8 8v2.06A10 10 0 0 0 22 12a10 10 0 0 0-10-10z" /></svg>
 );
-const SendIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const SendIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg>
 );
-const PaperclipIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const PaperclipIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.122 2.122l7.81-7.81" /></svg>
 );
-const XCircleIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const XCircleIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
 );
-const PdfIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const PdfIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm-2.5.5h1v-2h-1v2zm6.5 2h-1.5V7H15v3h1.5v1.5h-1.5V13H17v1.5h-1.5V16h-1.5v-2zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6z"/></svg>
 );
 
 
 // --- MTR-specific Icons ---
-const DocumentChaosIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const DocumentChaosIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="13" y2="17"></line><line x1="10" y1="9" x2="10" y2="9"></line></svg>
 );
-const HourglassIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const HourglassIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2v6c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V2 M6 22v-6c0-1.1.9-2 2-2h8a2 2 0 0 0 2 2v6 M12 10v4"></path></svg>
 );
-const ErrorIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const ErrorIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
 );
-const FileStackIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const FileStackIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M16 17H8 M16 13H8 M10 9H8"></path></svg>
 );
-const ScanIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const ScanIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2 M17 3h2a2 2 0 0 1 2 2v2 M21 17v2a2 2 0 0 1-2 2h-2 M7 21H5a2 2 0 0 1-2-2v-2 M7 12h10"></path></svg>
 );
-const ExtractIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const ExtractIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2Z"></path><path d="M15 2v20 M9 7h1 M9 12h3 M9 17h5"></path></svg>
 );
-const CompareIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const CompareIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path><polyline points="15 1 22 1 22 8"></polyline><polyline points="9 23 2 23 2 16"></polyline></svg>
 );
-const FlagIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const FlagIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z M4 22v-7"></path></svg>
 );
-const ReportIcon: React.FC<{ className?: string }> = ({ className }: { className?: string }) => (
+const ReportIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="m9 14 2 2 4-4"></path></svg>
 );
 
@@ -206,6 +205,33 @@ const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
     };
     const { name, Icon, align, bg, text } = authorDetails[message.author];
 
+    const renderContent = () => {
+        if (typeof message.content !== 'string') {
+            return <div className="prose prose-sm prose-invert max-w-none">{message.content}</div>;
+        }
+
+        const content = message.content.trim();
+        // The model might sometimes wrap the JSON in markdown backticks
+        const potentialJson = content.startsWith('```json') ? content.replace(/```json\n?|```/g, '') : content;
+        
+        try {
+            // Check if it's a non-empty string that can be parsed as JSON
+            if (potentialJson && (potentialJson.startsWith('{') || potentialJson.startsWith('['))) {
+                const parsedJson = JSON.parse(potentialJson);
+                // It's JSON, pretty-print it
+                return (
+                    <pre className="bg-slate-900/70 p-4 rounded-lg overflow-x-auto text-sm whitespace-pre-wrap break-all">
+                        <code>{JSON.stringify(parsedJson, null, 2)}</code>
+                    </pre>
+                );
+            }
+            throw new Error("Not JSON");
+        } catch (error) {
+            // Not a JSON string, render as markdown
+            return <div className="prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }} />;
+        }
+    };
+
     return (
         <div className={`flex flex-col gap-2 w-full ${align}`}>
             <div className="flex items-center gap-2">
@@ -214,11 +240,7 @@ const ChatMessage: React.FC<{ message: Message }> = ({ message }) => {
                 {isUser && <Icon className="w-6 h-6 text-purple-400" />}
             </div>
             <div className={`max-w-xl rounded-2xl p-4 ${bg} ${text} ${isUser ? 'rounded-br-none' : 'rounded-bl-none'}`}>
-                 {typeof message.content === 'string' ? (
-                     <div className="prose prose-sm prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }} />
-                ) : (
-                    <div className="prose prose-sm prose-invert max-w-none">{message.content}</div>
-                )}
+                 {renderContent()}
             </div>
         </div>
     );

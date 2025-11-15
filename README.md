@@ -2,36 +2,19 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# AI-Powered MTR Validation
+# Run and deploy your AI Studio app
 
-Production-ready Vite + React + TypeScript app with secure client-side API key input, Tailwind build pipeline, and automated GitHub Pages deployment.
+This contains everything you need to run your app locally.
 
-## Local Development
+View your app in AI Studio: https://ai.studio/apps/drive/1ubGG6BPie28hmZJe8VtbBMgtf8rZSQH8
 
-- Prerequisite: Node.js 18+ (22 recommended)
-- Install deps and start dev server:
+## Run Locally
 
-```powershell
-npm install
-npm run dev
-```
+**Prerequisites:**  Node.js
 
-Open the app, click "Manage API Key" and paste your Gemini API key. The key is stored in `sessionStorage` for the current tab session only.
 
-## Build
-
-```powershell
-npm run build
-npm run preview
-```
-
-## GitHub Pages Deployment
-
-- A workflow at `.github/workflows/deploy.yml` builds and deploys on pushes to `main`.
-- Vite `base` is set to `/MTRVALIDATION/` for project Pages.
-- After the first successful run, enable Pages in the repo settings to use the "GitHub Actions" source if prompted.
-
-## Security Notes
-
-- No environment variables are bundled. The app prompts for the Gemini API key at runtime and stores it in `sessionStorage`.
-- Every API request instantiates a fresh client with the provided key.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
