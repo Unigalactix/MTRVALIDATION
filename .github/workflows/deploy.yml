@@ -28,10 +28,15 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Build
         run: npm run build
+
+      - name: List dist (debug)
+        run: |
+          echo 'Dist contents:'
+          ls -R dist || echo 'dist missing'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
